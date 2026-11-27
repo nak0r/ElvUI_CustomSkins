@@ -3,13 +3,22 @@
 -- (ElvUI_AddOnSkins loads BEFORE EnhancedStackSplit alphabetically, so the addon's
 --  frames don't exist yet when this file runs - we wait for PLAYER_LOGIN instead.)
 --
--- This skin always uses the expanded ("XL") layout and removes the XL toggle button.
+-- The skin detects which build of EnhancedStackSplit is installed and adapts:
+--   "original" : stock addon (XL toggle button; XL buttons 10 12 14 15 16 20 + 100)
+--   "modified" : fixed-layout build (buttons 10 20 40 50 100, XL toggle disabled,
+--                empty placeholder buttons 14-16)
+--   "generic"  : anything else - the skin just lays out whatever buttons are visible
+--
+-- In every case the expanded layout is used and the XL toggle button is removed.
 
 local E, L, V, P, G = unpack(ElvUI)
 local S = E:GetModule("Skins")
 
 local skinned = false
 EnhancedStackSplit_SkinLoaded = true -- debug flag: file was loaded
+
+-- Set to true to print which addon version was detected when the skin runs.
+local DEBUG = false
 
 -- ---------------------------------------------------------------------------
 -- Border colour:
@@ -30,18 +39,48 @@ local MAIN_Y  = 36   -- vertical centre of the Okay / Cancel row
 local ROW1_TOP  = 21 -- top edge of the first row of buttons (2-9)
 local ROW_PITCH = 23 -- distance from one row of buttons to the next
 local BG_PADDING = 5 -- space between the last row of buttons and the bottom of the backdrop
-local MAX_BUTTONS = 24 -- the addon's numbered buttons are checked up to this index
+local MAX_BUTTONS = 24 -- numbered buttons are checked up to this index
 
 -- Amounts whose button should be removed, e.g. { ["100"] = true } to drop the 100 button.
 -- Empty by default: the skin lays out whichever buttons this version of the addon shows.
 local HIDDEN_AMOUNTS = {}
 
 -- ---------------------------------------------------------------------------
+-- Version detection
+-- ---------------------------------------------------------------------------
+-- Per-version behaviour:
+--   forceXL : make sure the addon is in expanded (XL) mode (only the stock addon has one)
+local PROFILES = {
+	original = { name = "original",  forceXL = true  },
+	modified = { name = "modified",  forceXL = false },
+	generic  = { name = "generic",   forceXL = false },
+}
+
+local function ButtonText(i)
+	local b = _G["EnhancedStackSplitButton" .. i]
+	return b and b:GetText() or nil
+end
+
+-- Looks at the fixed labels of buttons 11-16 (the stock addon never re-texts those):
+--   stock : 10 12 14 15 16 20
+--   mod   : 40 50 100 + empty placeholders
+local function DetectVersion()
+	local seen = {}
+	for i = 11, 16 do
+		local t = ButtonText(i)
+		if t and t ~= "" then seen[t] = true end
+	end
+	if seen["12"] or seen["14"] or seen["15"] or seen["16"] then return PROFILES.original end
+	if seen["40"] or seen["50"] then return PROFILES.modified end
+	return PROFILES.generic
+end
+
+-- ---------------------------------------------------------------------------
 -- Helpers
 -- ---------------------------------------------------------------------------
 
--- Expanded mode is always on. Done early (ADDON_LOADED) so the addon builds its frames
--- in expanded mode, and again at login in case that event order didn't work out.
+-- Expanded mode is always on. Done early (ADDON_LOADED) so the stock addon builds its
+-- frames in expanded mode. (The fixed-layout build ignores this setting.)
 local function ForceExpanded()
 	EnhancedStackSplit_Options = EnhancedStackSplit_Options or {}
 	EnhancedStackSplit_Options.XLmode = true
@@ -102,7 +141,24 @@ local function SkinEnhancedStackSplit()
 	skinned = true
 	EnhancedStackSplit_Skinned = true -- debug flag: skin function ran
 
-	ForceExpanded()
+	-- which build of the addon is this?
+	local profile = DetectVersion()
+	EnhancedStackSplit_SkinVersion = profile.name -- debug flag: detected version
+	if DEBUG then
+		print("|cff33ff99EnhancedStackSplit skin:|r detected '" .. profile.name .. "' version")
+	end
+
+	-- Stock addon only: if expanded mode didn't get switched on before the frames were
+	-- built (event order), flip it now by "clicking" the addon's own XL toggle.
+	if profile.forceXL then
+		local wasXL = EnhancedStackSplit_Options and EnhancedStackSplit_Options.XLmode
+		ForceExpanded()
+		if not wasXL and EnhancedStackSplitXLModeButton and EnhancedStackSplitXLModeButton:GetScript("OnClick") then
+			-- the toggle flips XLmode, so put it back to false first
+			EnhancedStackSplit_Options.XLmode = false
+			EnhancedStackSplitXLModeButton:Click()
+		end
+	end
 
 	local SSF = StackSplitFrame
 
@@ -161,13 +217,26 @@ local function SkinEnhancedStackSplit()
 	end
 
 	-- 4) Buttons
+	--    The numbered buttons are discovered, not hard-coded, so both builds work.
+	--    Buttons with no label (the fixed-layout build's hidden 14-16 placeholders) are
+	--    left alone - they never show.
+	local lastIndex = 0
 	local buttons = {
 		"EnhancedStackSplitAuto1Button",
 		"EnhancedStackSplitAutoSplitButton",
 		"EnhancedStackSplitModeTXTButton",
 	}
 	for i = 1, MAX_BUTTONS do
-		buttons[#buttons + 1] = "EnhancedStackSplitButton" .. i
+		local b = _G["EnhancedStackSplitButton" .. i]
+		if b then
+			lastIndex = i
+			local text = b:GetText()
+			if text and text ~= "" then
+				buttons[#buttons + 1] = "EnhancedStackSplitButton" .. i
+			else
+				b:Hide()
+			end
+		end
 	end
 
 	for _, name in ipairs(buttons) do
@@ -194,7 +263,8 @@ local function SkinEnhancedStackSplit()
 	end
 	if StackSplitCancelButton then ColorBorderPersistent(StackSplitCancelButton) end
 
-	-- XL toggle button: removed (expanded mode is always on)
+	-- XL toggle button: removed (expanded mode is always on). Both builds create it;
+	-- the fixed-layout build already hides it, the stock one shows it.
 	local xlb = EnhancedStackSplitXLModeButton
 	if xlb then
 		xlb:Hide()
@@ -220,8 +290,9 @@ local function SkinEnhancedStackSplit()
 	hooksecurefunc(EnhancedStackSplitTextAutoText2, "SetText", UpdateInfoText)
 
 	-- 5) Layout - re-positions everything so nothing overlaps.
-	--    Row 1: 2-9 | Row 2: 10 12 14 15 16 20 | Row 3: [M][Auto] centred.
-	--    The "100" button is not used.
+	--    Row 1: 2-9 | next rows: every other visible amount, ascending | last row: [M][Auto]
+	--      stock addon (XL):  10 12 14 15 16 20 100
+	--      fixed-layout build: 10 20 40 50 100
 	local function Layout()
 		local W = SSF:GetWidth()
 
@@ -258,15 +329,19 @@ local function SkinEnhancedStackSplit()
 
 		-- row 1: 2 - 9
 		local r1 = {}
-		for i = 1, 8 do r1[i] = btn(i) end
+		for i = 1, 8 do
+			local b = btn(i)
+			if b then r1[#r1 + 1] = b end
+		end
 		local function RowTop(r) return ROW1_TOP - (r - 1) * ROW_PITCH end
 		Row(r1, 18, RowTop(1))
 
-		-- next rows: every other numbered button the addon is showing (10, 20, 40, 50, 100 ... - which
-		-- ones depends on the addon version), in their original order. The addon's own show/hide state is
-		-- respected; nothing is forced visible, so there are no empty buttons.
+		-- next rows: every other numbered button the addon is showing, in ascending order of
+		-- the amount on the button. The addon's own show/hide state is respected; nothing is
+		-- forced visible, so there are no empty buttons. (Sorting by amount rather than by
+		-- on-screen position keeps the result identical on every open.)
 		local extras, order = {}, {}
-		for i = 9, MAX_BUTTONS do
+		for i = 9, lastIndex do
 			local b = btn(i)
 			if b then
 				local text = b:GetText()
@@ -280,13 +355,9 @@ local function SkinEnhancedStackSplit()
 				end
 			end
 		end
-		-- keep the order the buttons appear in on screen (top to bottom, then left to right); fall back
-		-- to the button number
 		table.sort(extras, function(x, y)
-			local xt, yt = x:GetTop(), y:GetTop()
-			if xt and yt and math.abs(xt - yt) > 2 then return xt > yt end
-			local xl, yl = x:GetLeft(), y:GetLeft()
-			if xl and yl and math.abs(xl - yl) > 1 then return xl < yl end
+			local xn, yn = tonumber(x:GetText()) or 9999, tonumber(y:GetText()) or 9999
+			if xn ~= yn then return xn < yn end
 			return order[x] < order[y]
 		end)
 		-- a button is at least 24px wide, wider if its label needs it (e.g. "100")
@@ -312,7 +383,7 @@ local function SkinEnhancedStackSplit()
 		end
 		local controlTop = RowTop(rowsUsed + 1)
 
-		-- row 3: [M][Auto] centred as a pair
+		-- last row: [M][Auto] centred as a pair
 		local modeBtn = EnhancedStackSplitModeTXTButton
 		local autoBtn = EnhancedStackSplitAutoSplitButton
 		modeBtn:SetHeight(BTN_H)
