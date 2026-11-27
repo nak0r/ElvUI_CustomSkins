@@ -1,0 +1,11 @@
+## Interface: 30300
+## Title: |cff1784d1ElvUI|r |cff00b3ffCustomSkins|r
+## Notes: Registers additional custom skins into ElvUI_AddOnSkins without modifying core files.
+## Dependencies: ElvUI, ElvUI_AddOnSkins
+## OptionalDeps: Skillet, MarketWatcher, DressMe, EnhancedStackSplit, RaidBuffStatus
+
+core.lua
+skins\MarketWatcher.lua
+skins\DressMe.lua
+skins\EnhancedStackSplit.lua
+skins\RaidBuffStatus.lua
