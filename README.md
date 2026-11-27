@@ -73,10 +73,10 @@ Skins should run after ElvUI has initialised (`PLAYER_LOGIN` or later), because 
 - EnhancedStackSplit's skin removes the XL toggle button and keeps the expanded layout on.
 
 ## Screenshot
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshot.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/marketwatcher1.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/marketwatcher2.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/dressme.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/ess.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/rbs.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/screenshot.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/marketwatcher1.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/marketwatcher2.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/dressme.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/ess.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/rbs.png">
 
