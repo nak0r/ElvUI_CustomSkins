@@ -9,9 +9,9 @@ Extra addon skins for [ElvUI_AddOnSkins](https://github.com/ElvUI-WotLK/ElvUI_Ad
 | Addon | What gets skinned |
 | --- | --- |
 | [MarketWatcher](https://www.curseforge.com/wow/addons/market-watcher/files/422870) | Auction house History and Scan tabs, dialogs, filters, config window, tooltips |
-| [DressMe] (https://github.com/GetLocalPlayer/DressMe) | Main window, dressing room, slots, tabs, dropdowns, preview tiles, lists |
-| [EnhancedStackSplit] (https://www.curseforge.com/wow/addons/enhanced-stack-split/files/422345)| Stack split frame, always using the expanded (XL) layout |
-| [RaidBuffStatus] (https://www.curseforge.com/wow/addons/raidbuffstatus/files/457723)| Dashboard, talents window, options window, plus Scale / Opacity sliders |
+| [DressMe](https://github.com/GetLocalPlayer/DressMe) | Main window, dressing room, slots, tabs, dropdowns, preview tiles, lists |
+| [EnhancedStackSplit](https://www.curseforge.com/wow/addons/enhanced-stack-split/files/422345)| Stack split frame, always using the expanded (XL) layout |
+| [RaidBuffStatus](https://www.curseforge.com/wow/addons/raidbuffstatus/files/457723)| Dashboard, talents window, options window, plus Scale / Opacity sliders |
 
 Each skin only applies if the target addon is installed and loaded.
 
