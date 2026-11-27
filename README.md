@@ -73,4 +73,4 @@ Skins should run after ElvUI has initialised (`PLAYER_LOGIN` or later), because 
 - EnhancedStackSplit's skin removes the XL toggle button and keeps the expanded layout on.
 
 ## Screenshot
-<imc src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshot.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshot.png">
