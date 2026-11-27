@@ -71,3 +71,6 @@ Skins should run after ElvUI has initialised (`PLAYER_LOGIN` or later), because 
 
 - The checkboxes are always listed, whether or not the target addon is installed.
 - EnhancedStackSplit's skin removes the XL toggle button and keeps the expanded layout on.
+
+## Screenshot
+<imc src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshot.png">
