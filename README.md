@@ -6,12 +6,14 @@ Extra addon skins for [ElvUI_AddOnSkins](https://github.com/ElvUI-WotLK/ElvUI_Ad
 
 ## Included skins
 
-| Addon | What gets skinned |
-| --- | --- |
-| [MarketWatcher](https://www.curseforge.com/wow/addons/market-watcher/files/422870) | Auction house History and Scan tabs, dialogs, filters, config window, tooltips |
-| [DressMe](https://github.com/GetLocalPlayer/DressMe) | Main window, dressing room, slots, tabs, dropdowns, preview tiles, lists |
-| [EnhancedStackSplit](https://www.curseforge.com/wow/addons/enhanced-stack-split/files/422345)| Stack split frame, always using the expanded (XL) layout |
-| [RaidBuffStatus](https://www.curseforge.com/wow/addons/raidbuffstatus/files/457723)| Dashboard, talents window, options window, plus Scale / Opacity sliders |
+| Addon | What gets skinned | Preview |
+| --- | --- | --- |
+| [MarketWatcher](https://www.curseforge.com/wow/addons/market-watcher/files/422870) | Auction house History and Scan tabs, dialogs, filters, config window, tooltips | <a href="screenshots/marketwatcher1.png"><img src="screenshots/marketwatcher1.png" width="200"></a><br><a href="screenshots/marketwatcher2.png"><img src="screenshots/marketwatcher2.png" width="200"></a> |
+| [DressMe](https://github.com/GetLocalPlayer/DressMe) | Main window, dressing room, slots, tabs, dropdowns, preview tiles, lists | <a href="screenshots/dressme.png"><img src="screenshots/dressme.png" width="200"></a> |
+| [EnhancedStackSplit](https://www.curseforge.com/wow/addons/enhanced-stack-split/files/422345) | Stack split frame, always using the expanded (XL) layout | <a href="screenshots/ess.png"><img src="screenshots/ess.png" width="200"></a> |
+| [RaidBuffStatus](https://www.curseforge.com/wow/addons/raidbuffstatus/files/457723) | Dashboard, talents window, options window, plus Scale / Opacity sliders | <a href="screenshots/rbs.png"><img src="screenshots/rbs.png" width="200"></a> |
+
+<a href="screenshots/screenshot.png"><img src="screenshots/screenshot.png" width="420"></a>
 
 Each skin only applies if the target addon is installed and loaded.
 
@@ -71,12 +73,3 @@ Skins should run after ElvUI has initialised (`PLAYER_LOGIN` or later), because 
 
 - The checkboxes are always listed, whether or not the target addon is installed.
 - EnhancedStackSplit's skin removes the XL toggle button and keeps the expanded layout on.
-
-## Screenshot
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/screenshot.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/marketwatcher1.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/marketwatcher2.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/dressme.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/ess.png">
-<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshots/rbs.png">
-
