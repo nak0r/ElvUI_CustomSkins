@@ -74,3 +74,9 @@ Skins should run after ElvUI has initialised (`PLAYER_LOGIN` or later), because 
 
 ## Screenshot
 <img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/screenshot.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/marketwatcher1.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/marketwatcher2.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/dressme.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/ess.png">
+<img src="https://github.com/nak0r/ElvUI_CustomSkins/blob/main/rbs.png">
+
